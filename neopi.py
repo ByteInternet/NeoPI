@@ -319,13 +319,17 @@ class SearchFile:
         for root, dirs, files in os.walk(args[0], followlinks=False):
             for file in files:
                 filename = os.path.join(root, file)
-                if (valid_regex.search(file) and os.path.getsize(filename) > SMALLEST):
-                    try:
-                        data = open(root + "/" + file, 'rb').read()
-                    except:
-                        data = False
-                        print "Could not read file :: %s/%s" % (root, file)
-                    yield data, filename
+                try:
+                    if valid_regex.search(file) and os.path.getsize(filename) > SMALLEST:
+                        try:
+                            data = open(root + "/" + file, 'rb').read()
+                        except (OSError, IOError):
+                            data = False
+                            raise
+                        finally:
+                            yield data, filename
+                except (OSError, IOError):
+                    print "Could not read file :: %s/%s" % (root, file)
 
 
 if __name__ == "__main__":
