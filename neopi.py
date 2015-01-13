@@ -332,7 +332,7 @@ class SearchFile:
                     print "Could not read file :: %s/%s" % (root, file)
 
 
-if __name__ == "__main__":
+def main():
     """Parse all the options"""
 
     timeStart = time.clock()
@@ -518,4 +518,7 @@ if __name__ == "__main__":
     if (count > len(rank_sorted)): count = len(rank_sorted)
     for x in range(count):
         print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
-   
+
+
+if __name__ == "__main__":
+    main()
