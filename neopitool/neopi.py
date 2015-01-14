@@ -11,6 +11,7 @@
 # Try catch regular expressions/bad path/bad filename/bad regex/
 
 # Library imports
+import json
 import math
 import sys
 import os
@@ -28,6 +29,9 @@ from optparse import OptionParser
 # Smallest filesize to checkfor in bytes.  
 SMALLEST = 60
 
+AUTO_REGEX = re.compile(
+    '(\.php|\.asp|\.aspx|\.scath|\.bash|\.zsh|\.csh|\.tsch|\.pl|\.py|\.txt|\.cgi|\.cfm|\.htaccess)$')
+
 
 class LanguageIC:
     """Class that calculates a file's Index of Coincidence as
@@ -40,6 +44,7 @@ class LanguageIC:
         self.total_char_count = 0
         self.results = []
         self.ic_total_results = ""
+        self.name = "Index of Coincidence"
 
     def calculate_char_count(self, data):
         """Method to calculate character counts for a particular data file."""
@@ -110,6 +115,7 @@ class Entropy:
     def __init__(self):
         """Instantiate the entropy_results array."""
         self.results = []
+        self.name = "Entropy"
 
     def calculate(self, data, filename):
         """Calculate the entropy for 'data' and append result to entropy_results array."""
@@ -145,6 +151,7 @@ class LongestWord:
     def __init__(self):
         """Instantiate the longestword_results array."""
         self.results = []
+        self.name = "Longest word"
 
     def calculate(self, data, filename):
         """Find the longest word in a string and append to longestword_results array"""
@@ -182,6 +189,7 @@ class SignatureNasty:
     def __init__(self):
         """Instantiate the results array."""
         self.results = []
+        self.name = "Signature"
 
     def calculate(self, data, filename):
         if not data:
@@ -214,6 +222,7 @@ class SignatureSuperNasty:
     def __init__(self):
         """Instantiate the results array."""
         self.results = []
+        self.name = "SUPER Signature"
 
     def calculate(self, data, filename):
         if not data:
@@ -243,6 +252,7 @@ class UsesEval:
     def __init__(self):
         """Instantiate the eval_results array."""
         self.results = []
+        self.name = "Eval"
 
     def calculate(self, data, filename):
         if not data:
@@ -273,6 +283,7 @@ class Compression:
     def __init__(self):
         """Instantiate the results array."""
         self.results = []
+        self.name = "Compression"
 
     def calculate(self, data, filename):
         if not data:
@@ -427,19 +438,14 @@ def main():
             parser.error("Invalid regular expression")
     else:
         valid_regex = re.compile('.*')
-    tests = []
 
     if options.is_auto:
-        valid_regex = re.compile(
-            '(\.php|\.asp|\.aspx|\.scath|\.bash|\.zsh|\.csh|\.tsch|\.pl|\.py|\.txt|\.cgi|\.cfm|\.htaccess)$')
+        valid_regex = AUTO_REGEX
 
     if options.is_all:
-        tests.append(LanguageIC())
-        tests.append(Entropy())
-        tests.append(LongestWord())
-        tests.append(SignatureNasty())
-        tests.append(SignatureSuperNasty())
+        tests = _all_tests()
     else:
+        tests = []
         if options.is_entropy:
             tests.append(Entropy())
         if options.is_longest:
@@ -519,6 +525,42 @@ def main():
     for x in range(count):
         print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
 
+
+def _all_tests():
+    return (LanguageIC(),
+            Entropy(),
+            LongestWord(),
+            SignatureNasty(),
+            SignatureSuperNasty())
+
+
+def get_json_summary_using_all_tests(path, number_of_results=10):
+    # TODO: variable regex
+
+    all_tests = _all_tests()
+    valid_regex = AUTO_REGEX
+
+    locator = SearchFile()
+    for data, filename in locator.search_file_path([path], valid_regex):
+        for test in all_tests:
+            test.calculate(data, filename)
+
+    cumulative_ranks = defaultdict(lambda: {'rank': 0, 'value': 0.0})
+    results = {}
+
+    for test in all_tests:
+        test.sort()
+        results[test.name] = test.results[:number_of_results]
+
+        for result in test.results:
+            cumulative_ranks[result['filename']]['rank'] += result['rank']
+            cumulative_ranks[result['filename']]['value'] += result['value']
+
+    rank_sorted = sorted(cumulative_ranks.items(), key=lambda x: x[1]['rank'])[:number_of_results]
+    ranks = [{'filename': d[0], 'rank': d[1]['rank'], 'value': d[1]['value']} for d in rank_sorted]
+    results['Cumulative'] = ranks
+
+    return json.dumps(results)
 
 if __name__ == "__main__":
     main()
