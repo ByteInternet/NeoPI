@@ -542,6 +542,13 @@ def get_json_summary_using_all_tests(path, number_of_results=10):
 
     locator = SearchFile()
     for data, filename in locator.search_file_path([path], valid_regex):
+        # Filename might be encoded in an encoding other than utf-8 (or ascii),
+        # which will cause problems when trying to json.dumps, which attempts
+        # to encode all data as utf-8. We try to decode filenames as utf-8 here
+        # and replace any characters we cannot decode with '?' (as we have no
+        # reliable way to detect what encoding it is in) so that the end-user
+        # will get a mostly-legible filename)
+        filename = filename.decode('utf-8', errors='replace')
         for test in all_tests:
             test.calculate(data, filename)
 
