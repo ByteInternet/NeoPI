@@ -356,7 +356,7 @@ def main():
     _((_)/((_))\(_))(_))
    | \| (_)) ((_) _ \_ _|
    | .` / -_) _ \  _/| |
-   |_|\_\___\___/_| |___| Ver. *.USEGIT
+   |_|\_\___\___/_| |___|
    """
 
     parser = OptionParser(usage="usage: %prog [options] <start directory> <OPTIONAL: filename regex>",
