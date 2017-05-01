@@ -1,0 +1,12 @@
+hypernode-kamikaze (20170501.105316) xenial; urgency=medium
+
+  * UNRELEASED
+
+ -- Rick van de Loo <vdloo@workstation4>  Mon, 01 May 2017 10:54:23 +0200
+
+hypernode-kamikaze (20170501.095909) unstable; urgency=low
+
+  * Initial release.
+
+ -- Rick van de Loo <rick@byte.nl>  Mon, 1 May 2017 09:59:09 +0100
+
