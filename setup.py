@@ -13,4 +13,9 @@ setup(name="neopitool",
       author="Rik",
       author_email="rik@byte.nl",
       install_requires=[],
-      )
+      entry_points={
+	  'console_scripts': [
+	      'neopi = neopi'
+	  ],
+      },
+    )

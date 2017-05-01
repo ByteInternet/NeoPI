@@ -1,0 +1,15 @@
+Source: hypernode-kamikaze
+Maintainer: Rick van de Loo <rick@byte.nl>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Vcs-Git: git@github.com:ByteInternet/NeoPI.git
+Build-Depends: debhelper (>= 9), python, python-setuptools
+X-Python-Version: >= 2.6
+
+Package: neopi
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Python script that uses a variety of statistical methods 
+  to detect obfuscated and encrypted content within text/script files
+

@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python2
+
+override_dh_install:
+	dh_install
+	mkdir -p debian/neopi/usr/sbin/
+	mv debian/neopi/usr/bin/neopi debian/neopi/usr/sbin/neopi;
