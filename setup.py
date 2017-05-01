@@ -15,7 +15,7 @@ setup(name="neopitool",
       install_requires=[],
       entry_points={
 	  'console_scripts': [
-	      'neopi = neopi'
+              'neopi = neopitool.neopi:main'
 	  ],
       },
     )
