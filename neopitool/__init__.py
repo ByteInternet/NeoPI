@@ -1,1 +1,1 @@
-from neopi import *
+from .neopi import *

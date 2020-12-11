@@ -60,7 +60,7 @@ class LanguageIC:
     def calculate_IC(self):
         """Calculate the Index of Coincidence for the self variables"""
         total = 0
-        for val in self.char_count.values():
+        for val in list(self.char_count.values()):
 
             if val == 0:
                 continue
@@ -100,12 +100,12 @@ class LanguageIC:
         """Print the top signature count match files for a given search"""
         # Calculate the Total IC for a Search
         self.calculate_IC()
-        print "\n[[ Average IC for Search ]]"
-        print self.ic_total_results
-        print "\n[[ Top %i lowest IC files ]]" % (count)
+        print("\n[[ Average IC for Search ]]")
+        print(self.ic_total_results)
+        print("\n[[ Top %i lowest IC files ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -138,10 +138,10 @@ class Entropy:
 
     def printer(self, count):
         """Print the top signature count match files for a given search"""
-        print "\n[[ Top %i entropic files for a given search ]]" % (count)
+        print("\n[[ Top %i entropic files for a given search ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -176,10 +176,10 @@ class LongestWord:
 
     def printer(self, count):
         """Print the top signature count match files for a given search"""
-        print "\n[[ Top %i longest word files ]]" % (count)
+        print("\n[[ Top %i longest word files ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -209,10 +209,10 @@ class SignatureNasty:
 
     def printer(self, count):
         """Print the top signature count match files for a given search"""
-        print "\n[[ Top %i signature match counts ]]" % (count)
+        print("\n[[ Top %i signature match counts ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -239,10 +239,10 @@ class SignatureSuperNasty:
 
     def printer(self, count):
         """Print the top signature count match files for a given search"""
-        print "\n[[ Top %i SUPER-signature match counts (These are usually bad!) ]]" % (count)
+        print("\n[[ Top %i SUPER-signature match counts (These are usually bad!) ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -270,10 +270,10 @@ class UsesEval:
 
     def printer(self, count):
         """Print the files that use eval"""
-        print "\n[[ Top %i eval match counts ]]" % (count)
+        print("\n[[ Top %i eval match counts ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7}          {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7}          {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -300,10 +300,10 @@ class Compression:
 
     def printer(self, count):
         """Print the top files for a given search"""
-        print "\n[[ Top %i compression match counts ]]" % (count)
+        print("\n[[ Top %i compression match counts ]]" % (count))
         if (count > len(self.results)): count = len(self.results)
         for x in range(count):
-            print ' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"])
+            print(' {0:>7.4f}        {1}'.format(self.results[x]["value"], self.results[x]["filename"]))
         return
 
 
@@ -340,7 +340,7 @@ class SearchFile:
                         finally:
                             yield data, filename
                 except (OSError, IOError):
-                    print "Could not read file :: %s/%s" % (root, file)
+                    print("Could not read file :: %s/%s" % (root, file))
 
 
 def main():
@@ -348,7 +348,7 @@ def main():
 
     timeStart = time.clock()
 
-    print """
+    print("""
        )         (   (
     ( /(         )\ ))\ )
     )\())  (    (()/(()/(
@@ -357,7 +357,7 @@ def main():
    | \| (_)) ((_) _ \_ _|
    | .` / -_) _ \  _/| |
    |_|\_\___\___/_| |___|
-   """
+   """)
 
     parser = OptionParser(usage="usage: %prog [options] <start directory> <OPTIONAL: filename regex>",
                           version="%prog 1.0")
@@ -423,7 +423,7 @@ def main():
     # Error on invalid number of arguements
     if len(args) < 1:
         parser.print_help()
-        print ""
+        print("")
         sys.exit()
 
     # Error on an invalid path
@@ -505,9 +505,9 @@ def main():
     timeFinish = time.clock()
 
     # Print some stats
-    print "\n[[ Total files scanned: %i ]]" % (fileCount)
-    print "[[ Total files ignored: %i ]]" % (fileIgnoreCount)
-    print "[[ Scan Time: %f seconds ]]" % (timeFinish - timeStart)
+    print("\n[[ Total files scanned: %i ]]" % (fileCount))
+    print("[[ Total files ignored: %i ]]" % (fileIgnoreCount))
+    print("[[ Scan Time: %f seconds ]]" % (timeFinish - timeStart))
 
     # Print top rank lists
     rank_list = {}
@@ -517,13 +517,13 @@ def main():
         for file in test.results:
             rank_list[file["filename"]] = rank_list.setdefault(file["filename"], 0) + file["rank"]
 
-    rank_sorted = sorted(rank_list.items(), key=lambda x: x[1])
+    rank_sorted = sorted(list(rank_list.items()), key=lambda x: x[1])
 
-    print "\n[[ Top cumulative ranked files ]]"
+    print("\n[[ Top cumulative ranked files ]]")
     count = 10
     if (count > len(rank_sorted)): count = len(rank_sorted)
     for x in range(count):
-        print ' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0])
+        print(' {0:>7}        {1}'.format(rank_sorted[x][1], rank_sorted[x][0]))
 
 
 def _all_tests():
@@ -563,7 +563,7 @@ def get_json_summary_using_all_tests(path, number_of_results=10):
             cumulative_ranks[result['filename']]['rank'] += result['rank']
             cumulative_ranks[result['filename']]['value'] += result['value']
 
-    rank_sorted = sorted(cumulative_ranks.items(), key=lambda x: x[1]['rank'])[:number_of_results]
+    rank_sorted = sorted(list(cumulative_ranks.items()), key=lambda x: x[1]['rank'])[:number_of_results]
     ranks = [{'filename': d[0], 'rank': d[1]['rank'], 'value': d[1]['value']} for d in rank_sorted]
     results['Cumulative'] = ranks
 
